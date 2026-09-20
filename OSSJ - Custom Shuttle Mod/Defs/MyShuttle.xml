@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+<!-- ==================================================================== -->
+<!-- YOUR OWN SHUTTLE                                                     -->
+<!--                                                                      -->
+<!-- Replace MYSHUTTLE everywhere with a name of your own.                -->
+<!-- Letters only, no spaces - for example RedRocket.                     -->
+<!-- only exception:							  -->
+<!-- <label>MYSHUTTLE</label> can be <label>Red Rocket</label>		  -->
+<!--									  -->
+<!--                                                   			  -->
+<!--									  -->
+<!--							                  -->
+<!-- Lines marked CHANGE are yours to play with. Everything else is what  -->
+<!-- makes it a working shuttle - leave it alone unless you know why.     -->
+<!-- ==================================================================== -->
+
+  <!-- The shuttle as a vehicle: how it lands, how it leaves, how it looks
+       on the planet map. It points at the building below via shipThing. -->
+
+  <TransportShipDef>
+    <defName>MYSHUTTLE_Ship</defName>
+    <label>MYSHUTTLE</label>
+    <shipThing>MYSHUTTLE</shipThing>
+    <arrivingSkyfaller>PassengerShuttleIncoming</arrivingSkyfaller>
+    <leavingSkyfaller>PassengerShuttleLeaving</leavingSkyfaller>
+    <worldObject>PassengerShuttle</worldObject>
+    <playerShuttle>true</playerShuttle>
+  </TransportShipDef>
+
+
+  <!-- The shuttle as a building: what you construct and see on the map. -->
+
+  <ThingDef ParentName="BuildingBase">
+
+    <defName>MYSHUTTLE</defName>
+
+    <!-- CHANGE: name and text shown in game. -->
+    <label>MYSHUTTLE</label>
+    <description>My own shuttle.</description>
+
+    <thingClass>Building_PassengerShuttle</thingClass>
+    <category>Building</category>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <pathCost>50</pathCost>
+    <fillPercent>0.5</fillPercent>
+    <size>(3,5)</size>
+    <blockWind>true</blockWind>
+    <preventDroppingThingsOn>true</preventDroppingThingsOn>
+    <preventSkyfallersLandingOn>true</preventSkyfallersLandingOn>
+    <canOverlapZones>true</canOverlapZones>
+    <rotatable>true</rotatable>
+    <defaultPlacingRot>East</defaultPlacingRot>
+    <hasInteractionCell>true</hasInteractionCell>
+    <interactionCellOffset>(2, 0, 0)</interactionCellOffset>
+    <selectable>true</selectable>
+    <drawHighlight>true</drawHighlight>
+    <highlightColor>(0.56, 0.62, 0.9)</highlightColor>
+    <uiIconScale>1</uiIconScale>
+    <drawerType>RealtimeOnly</drawerType>
+    <tickerType>Normal</tickerType>
+    <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
+    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <repairEffect>ConstructMetal</repairEffect>
+    <forceDebugSpawnable>true</forceDebugSpawnable>
+
+    <!-- ================================================================ -->
+    <!-- LOOK                                                             -->
+    <!--                                                                  -->
+    <!-- Out of the box this uses the vanilla shuttle picture.            -->
+    <!-- For your own: put three pictures into Textures/MYSHUTTLE/, named -->
+    <!-- MYSHUTTLE_north.png, MYSHUTTLE_east.png, MYSHUTTLE_south.png     -->
+    <!-- (west is mirrored from east), then swap the two texPath lines    -->
+    <!-- below: delete the first one, and remove the marks around the     -->
+    <!-- second one.                                                      -->
+    <!-- ================================================================ -->
+
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+
+      <texPath>Things/Building/PassengerShuttle/PassengerShuttle</texPath>
+      <!-- <texPath>MYSHUTTLE/MYSHUTTLE</texPath> -->
+      <!-- it should then look like: <texPath>RedRocket/RedRocket</texPath>
+           The path starts inside the Textures folder, so "Textures/" is
+           never part of it. -->
+
+
+      <shaderType>CutoutComplex</shaderType>
+
+      <!-- CHANGE: how "big" the shuttle texture will be shown. -->
+      <drawSize>(3,5)</drawSize>
+
+      <!-- Delete this block if a dark box shows around your picture. -->
+      <shadowData>
+        <volume>(1.8, 1.0, 4.1)</volume>
+        <offset>(-0.1, 0, 0)</offset>
+      </shadowData>
+    </graphicData>
+
+    <!-- ================================================================ -->
+    <!-- NUMBERS - all yours.                                             -->
+    <!-- These are the vanilla passenger shuttle's values: smaller makes  -->
+    <!-- a lighter shuttle, bigger a heavier one.                         -->
+    <!-- ================================================================ -->
+
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <WorkToBuild>36000</WorkToBuild>
+      <Mass>125</Mass>
+      <Flammability>0.5</Flammability>
+      <Comfort>0.65</Comfort>
+    </statBases>
+
+    <costList>
+      <Steel>250</Steel>
+      <Plasteel>150</Plasteel>
+      <ComponentIndustrial>6</ComponentIndustrial>
+      <ShuttleEngine>1</ShuttleEngine>
+    </costList>
+
+    <killedLeavings>
+      <Steel>50</Steel>
+      <Plasteel>50</Plasteel>
+      <ChunkSlagSteel>4</ChunkSlagSteel>
+      <ComponentIndustrial>3</ComponentIndustrial>
+    </killedLeavings>
+
+    <constructionSkillPrerequisite>6</constructionSkillPrerequisite>
+    <designationCategory>Odyssey</designationCategory>
+    <uiOrder>2603</uiOrder>
+
+    <researchPrerequisites>
+      <li>Shuttles</li>
+    </researchPrerequisites>
+
+    <building>
+      <claimable>false</claimable>
+      <paintable>true</paintable>
+      <isInert>true</isInert>
+      <destroySound>BuildingDestroyed_Metal_Big</destroySound>
+      <forcedCostLeavings>
+        <li>ShuttleEngine</li>
+      </forcedCostLeavings>
+    </building>
+
+    <inspectorTabs>
+      <li>ITab_ContentsTransporter</li>
+    </inspectorTabs>
+
+    <placeWorkers>
+      <li>PlaceWorker_NotUnderRoof</li>
+    </placeWorkers>
+
+    <!-- ================================================================ -->
+    <!-- PARTS - what the shuttle can do.                                 -->
+    <!-- The last one comes from Odyssey Shuttle Skin-Job and adds        -->
+    <!-- Rotate and Reposition. Keep it.                                  -->
+    <!-- ================================================================ -->
+
+    <comps>
+
+      <li Class="CompProperties_Shuttle">
+        <shipDef>MYSHUTTLE_Ship</shipDef>
+      </li>
+
+      <li Class="CompProperties_Launchable">
+        <!-- CHANGE: range and fuel use. -->
+        <fixedLaunchDistanceMax>62</fixedLaunchDistanceMax>
+        <fuelPerTile>3</fuelPerTile>
+        <minFuelCost>50</minFuelCost>
+
+        <cooldownTicks>3750</cooldownTicks>
+        <cooldownEndedMessage>{0} is ready to launch again.</cooldownEndedMessage>
+        <skyfallerLeaving>PassengerShuttleLeaving</skyfallerLeaving>
+        <worldObjectDef>PassengerShuttle</worldObjectDef>
+      </li>
+
+      <li Class="CompProperties_Transporter">
+        <!-- CHANGE: how much it carries. Passengers count towards this. -->
+        <massCapacity>500</massCapacity>
+
+        <max1PerGroup>true</max1PerGroup>
+        <canChangeAssignedThingsAfterStarting>true</canChangeAssignedThingsAfterStarting>
+        <pawnLoadedSound>Shuttle_PawnLoaded</pawnLoadedSound>
+        <pawnExitSound>Shuttle_PawnExit</pawnExitSound>
+        <showMassInInspectString>true</showMassInInspectString>
+      </li>
+
+      <li Class="CompProperties_Refuelable">
+        <!-- CHANGE: size of the fuel tank. Keep both lines the same. -->
+        <fuelCapacity>400</fuelCapacity>
+        <initialConfigurableTargetFuelLevel>400</initialConfigurableTargetFuelLevel>
+
+        <targetFuelLevelConfigurable>true</targetFuelLevelConfigurable>
+        
+	<fuelFilter>
+          <thingDefs>
+            <li>Chemfuel</li>
+          </thingDefs>
+        </fuelFilter>
+        
+	<fuelLabel>Chemfuel</fuelLabel>
+        <fuelGizmoLabel>Chemfuel</fuelGizmoLabel>
+        <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
+        <autoRefuelPercent>1</autoRefuelPercent>
+        <showFuelGizmo>true</showFuelGizmo>
+        <drawOutOfFuelOverlay>false</drawOutOfFuelOverlay>
+        <showAllowAutoRefuelToggle>true</showAllowAutoRefuelToggle>
+        <canEjectFuel>true</canEjectFuel>
+      </li>
+
+      <li Class="CompProperties_AmbientSound">
+        <sound>ShuttleIdle_Ambience</sound>
+      </li>
+
+      <li Class="OSSkinJob.CompProperties_OSSkinJob">
+
+     <!-- ADVANCED - extra looks you can switch between in game, with a button
+     on the shuttle. Each look needs its own set of pictures, named the same
+     way as above, in Textures/MYSHUTTLE/Skins/.
+
+     TWO LISTS, BOTH OPTIONAL. Each one has its own switch below, so you can
+     use one of them, or both. Each list gets its own button on the shuttle.
+
+     MORE LOOKS PER LIST. One <li> block is one look. Copy a whole <li> block to
+     add another one, as often as you like, and give each its own texPath and
+     label. The examples below are just examples.
+
+     Switch a list on only after its pictures are in place. Without them the
+     game shows pink boxes and throws red errors. -->
+
+     <!-- LOOKS FOR ALL FOUR DIRECTIONS: DELETE THIS WHOLE LINE TO SWITCH ON
+
+        <fullSkins>
+          <li>
+            <texPath>MYSHUTTLE/Skins/Look1</texPath>
+            <label>Look 1</label>
+          </li>
+          <li>
+            <texPath>MYSHUTTLE/Skins/Look2</texPath>
+            <label>Look 2</label>
+          </li>
+        </fullSkins>
+
+     AND DELETE THIS WHOLE LINE TOO -->
+
+     <!-- SIDE VIEWS, EAST AND WEST ONLY: DELETE THIS WHOLE LINE TO SWITCH ON
+
+        <restrictedSkins>
+          <li>
+            <texPath>MYSHUTTLE/Skins/SideLook1</texPath>
+            <label>Side look 1</label>
+          </li>
+        </restrictedSkins>
+
+     AND DELETE THIS WHOLE LINE TOO -->
+
+      </li>
+
+    </comps>
+
+  </ThingDef>
+
+</Defs>
