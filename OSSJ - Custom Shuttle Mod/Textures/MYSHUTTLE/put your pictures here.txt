@@ -1,0 +1,10 @@
+Rename this folder to your shuttle's name, then put your pictures in it, like:
+
+    RedRocket_north.png     seen from above, nose pointing up
+    RedRocket_east.png      seen from above, nose pointing right
+    RedRocket_south.png     seen from above, nose pointing down
+
+West is mirrored from east automatically.
+
+Then open Defs\MyShuttle.xml and follow the note in the LOOK section.
+You can delete this file.
